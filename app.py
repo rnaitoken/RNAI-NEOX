@@ -31,6 +31,7 @@
       margin-bottom: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px #00ff9966;
+      position: relative;
     }
     .api-box h3 {
       margin-bottom: 10px;
@@ -57,7 +58,22 @@
     }
     .message {
       font-size: 0.9rem;
+      margin-top: 10px;
       color: #00ff99;
+    }
+    .timestamp {
+      font-size: 0.8rem;
+      color: #999;
+    }
+    .toggle-visibility {
+      position: absolute;
+      top: 48px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #00ff99;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -66,21 +82,14 @@
   <p>Pega tus claves API o URLs de Webhook para activar funcionalidades automáticas.</p>
 
   <div class="api-container" id="form-list">
-    <!-- Se generarán los formularios aquí -->
+    <!-- Formularios generados dinámicamente -->
   </div>
 
   <script>
     const apis = [
       { nombre: "API de OpenAI", id: "openai", placeholder: "sk-xxxxx", endpoint: "https://api.openai.com/v1/chat/completions" },
       { nombre: "Webhook de Zapier", id: "zapier", placeholder: "https://hooks.zapier.com/hooks/xxx" },
-      { nombre: "API de Zoom (JWT)", id: "zoom", placeholder: "eyJhbGciOi..." },
-      { nombre: "Webhook de Make", id: "make", placeholder: "https://hook.integromat.com/xxx" },
-      { nombre: "API de ElevenLabs", id: "elevenlabs", placeholder: "elevenlabs-xxxxx" },
-      { nombre: "Webhook de Discord", id: "discord", placeholder: "https://discord.com/api/webhooks/xxx" },
-      { nombre: "API de Notion", id: "notion", placeholder: "secret_xxx" },
-      { nombre: "Webhook de Slack", id: "slack", placeholder: "https://hooks.slack.com/services/xxx" },
-      { nombre: "API de Telegram Bot", id: "telegram", placeholder: "123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" },
-      { nombre: "API de Google Cloud", id: "googlecloud", placeholder: "AIzaSyD-xxx" }
+      { nombre: "API de Zoom (JWT)", id: "zoom", placeholder: "eyJhbGciOi..." }
     ];
 
     const formList = document.getElementById("form-list");
@@ -94,10 +103,19 @@
       box.appendChild(title);
 
       const input = document.createElement("input");
-      input.type = "text";
+      input.type = "password";
       input.placeholder = api.placeholder;
       input.id = `input-${api.id}`;
       box.appendChild(input);
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.className = "toggle-visibility";
+      toggleBtn.innerText = "👁️";
+      toggleBtn.onclick = () => {
+        input.type = input.type === "password" ? "text" : "password";
+        toggleBtn.innerText = input.type === "password" ? "👁️" : "🙈";
+      };
+      box.appendChild(toggleBtn);
 
       const btn = document.createElement("button");
       btn.innerText = "Ejecutar";
@@ -109,16 +127,24 @@
       msg.id = `msg-${api.id}`;
       box.appendChild(msg);
 
+      const time = document.createElement("p");
+      time.className = "timestamp";
+      time.id = `time-${api.id}`;
+      box.appendChild(time);
+
       formList.appendChild(box);
     });
 
     function ejecutarAPI(id, value, endpoint) {
       if (!value) return;
 
-      // Guardar en localStorage (puede ser reemplazado por backend/API POST en producción)
+      const now = new Date();
+      const timestamp = now.toLocaleString();
+
       localStorage.setItem(`api-${id}`, value);
 
-      document.getElementById(`msg-${id}`).innerText = `✅ ${id} guardada correctamente.`;
+      document.getElementById(`msg-${id}`).innerText = `✅ Clave guardada correctamente.`;
+      document.getElementById(`time-${id}`).innerText = `Última actualización: ${timestamp}`;
 
       if (id === "openai" && endpoint) {
         fetch(endpoint, {
@@ -129,7 +155,7 @@
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: "Hola, esto es una prueba de conexión." }]
+            messages: [{ role: "user", content: "¿Estás activo?" }]
           })
         })
         .then(res => res.json())
@@ -137,11 +163,11 @@
           if (data.choices) {
             document.getElementById(`msg-${id}`).innerText += " Respuesta recibida ✅";
           } else {
-            document.getElementById(`msg-${id}`).innerText += " Pero hubo un error con la respuesta. ❌";
+            document.getElementById(`msg-${id}`).innerText += " Pero hubo un error en la respuesta. ❌";
           }
         })
         .catch(err => {
-          document.getElementById(`msg-${id}`).innerText = `❌ Error al ejecutar: ${err.message}`;
+          document.getElementById(`msg-${id}`).innerText = `❌ Error de conexión: ${err.message}`;
         });
       }
     }
