@@ -2,30 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RNAI-NEOX Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="p-5 bg-dark text-white">
-  <div class="container text-center">
-    <h1>🚀 RNAI-NEOX Dashboard</h1>
-    <p>Bienvenido, boss. ¿Listo para lanzar inteligencia artificial?</p>
-    <button class="btn btn-primary mt-4" onclick="runSeed()">Ejecutar Script IA</button>
-    <div class="mt-4">
-      <h5>Resultado:</h5>
-      <pre id="output" class="bg-secondary p-3 rounded"></pre>
-    </div>
-  </div>
-  <script>
-    function runSeed() {
-      fetch('https://TU_BACKEND_URL/run-seed')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('output').innerText = data.output || data.error;
-        })
-        .catch(err => {
-          document.getElementById('output').innerText = 'Error: ' + err;
-        });
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0e0e0e;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 60px 20px;
     }
-  </script>
+    img {
+      border-radius: 50%;
+      width: 140px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px #00ffe0;
+    }
+    h1 {
+      font-size: 28px;
+      color: #00ffe0;
+    }
+    p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .tag {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://avatars.githubusercontent.com/u/208672666?v=4" alt="Avatar de RNAI">
+  <h1>Bienvenido al dashboard de RNAI-NEOX</h1>
+  <p>Sistema de automatización AI para tareas múltiples. Este entorno ha sido desplegado con GitHub + Railway + Vercel.</p>
+  <div class="tag">@rnaitoken</div>
 </body>
 </html>
