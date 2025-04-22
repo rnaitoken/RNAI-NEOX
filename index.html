@@ -2,76 +2,94 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RNAI-NEOX Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RNAI Dashboard - Centro de Integraciones</title>
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+      color: #00ffcc;
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
+      padding: 50px 20px;
     }
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.2em;
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #00ffe1;
+      text-shadow: 0 0 10px #00ffe1;
     }
-    p {
-      font-size: 1.2em;
-      margin-bottom: 2em;
+    h2 {
+      font-weight: 300;
+      font-size: 1.3rem;
+      color: #aaffff;
     }
-    img {
+    img.logo {
       width: 120px;
       margin-bottom: 20px;
+      filter: drop-shadow(0 0 10px #00ffe1);
     }
-    .btn-group {
-      display: flex;
-      gap: 1em;
-    }
-    a button {
-      background-color: #00cc99;
-      color: white;
+    #searchBox {
+      margin: 30px auto;
+      padding: 12px;
+      font-size: 1rem;
+      width: 300px;
       border: none;
-      padding: 12px 20px;
-      font-size: 1em;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffe1;
     }
-    a button:hover {
-      background-color: #009977;
+    ul {
+      list-style: none;
+      padding: 0;
     }
-    footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.9em;
-      color: #aaa;
+    li {
+      margin: 15px 0;
+    }
+    a {
+      text-decoration: none;
+      font-size: 1.1rem;
+      color: #00ffe1;
+      padding: 10px 25px;
+      border: 1px solid #00ffe1;
+      border-radius: 30px;
+      background-color: rgba(0, 255, 255, 0.1);
+      transition: 0.3s ease;
+    }
+    a:hover {
+      background-color: #00ffe1;
+      color: #000;
+      box-shadow: 0 0 20px #00ffe1;
     }
   </style>
 </head>
 <body>
-
-  <img src="https://avatars.githubusercontent.com/u/208672666?v=4" alt="RNAI Logo" />
+  <img src="https://avatars.githubusercontent.com/u/208672666?v=4" alt="RNAI Logo" class="logo" />
   <h1>RNAI-NEOX Dashboard</h1>
-  <p>Bienvenido al núcleo inteligente de tu enjambre digital. Ejecuta, conecta, controla.</p>
+  <h2>Selecciona una integración para configurar tu enjambre digital</h2>
 
-  <div class="btn-group">
-    <a href="https://t.me/tuusuario" target="_blank">
-      <button>Telegram</button>
-    </a>
-    <a href="api.html">
-      <button>Conectar API</button>
-    </a>
-  </div>
+  <input type="text" id="searchBox" placeholder="🔍 Buscar integración..." onkeyup="buscarIntegracion()" />
 
-  <footer>
-    Proyecto RNAI-NEOX © 2025 | by @rnaitoken
-  </footer>
+  <ul id="listaIntegraciones">
+    <li><a href="openai.html">🔑 OpenAI</a></li>
+    <li><a href="telegram.html">📨 Telegram Bot</a></li>
+    <li><a href="zoom.html">🎥 Zoom API</a></li>
+    <li><a href="zapier.html">🔗 Zapier Webhook</a></li>
+    <li><a href="elevenlabs.html">🧠 ElevenLabs</a></li>
+    <li><a href="googlecloud.html">🌐 Google Cloud</a></li>
+    <li><a href="discord.html">🎮 Discord Bot</a></li>
+    <li><a href="whatsapp.html">💬 WhatsApp API</a></li>
+    <li><a href="notion.html">🗂️ Notion API</a></li>
+    <li><a href="huggingface.html">🤗 Hugging Face</a></li>
+  </ul>
 
+  <script>
+    function buscarIntegracion() {
+      const input = document.getElementById("searchBox").value.toLowerCase();
+      const items = document.querySelectorAll("#listaIntegraciones li");
+      items.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+  </script>
 </body>
 </html>
