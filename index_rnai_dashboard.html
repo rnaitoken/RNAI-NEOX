@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RNAI-NEOX Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #141e30, #243b55);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      animation: fadeIn 2s ease-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #cfd8dc;
+      animation: fadeIn 2.5s ease-out;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeIn 3s ease-out;
+    }
+
+    a.button {
+      background-color: #00c9a7;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    a.button:hover {
+      background-color: #00a88f;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.9rem;
+      color: #aaaaaa;
+    }
+
+    img.avatar {
+      width: 140px;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://avatars.githubusercontent.com/u/208672666?v=4" alt="Avatar RNAI" class="avatar"/>
+  <h1>RNAI-NEOX Dashboard</h1>
+  <p>Bienvenido al núcleo inteligente de tu enjambre digital. Ejecuta, conecta, controla.</p>
+
+  <div class="button-group">
+    <a href="https://t.me/tuusuario" class="button" target="_blank">Telegram</a>
+    <a href="#" class="button">Conectar API</a>
+  </div>
+
+  <footer>
+    Proyecto RNAI-NEOX &copy; 2025 | by @rnaitoken
+  </footer>
+</body>
+</html>
