@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Integraciones con RNAI-NEOX</title>
+  <title>Integraciones RNAI-NEOX - Dashboard</title>
   <style>
     body {
       background-color: #111;
@@ -16,9 +16,6 @@
     }
     h1 {
       color: #00ff99;
-    }
-    p {
-      color: #ccc;
     }
     .api-container {
       margin-top: 20px;
@@ -51,14 +48,9 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-    .api-box button:hover {
-      background-color: #00cc77;
     }
     .message {
       font-size: 0.9rem;
-      margin-top: 10px;
       color: #00ff99;
     }
     .timestamp {
@@ -73,23 +65,25 @@
       border: none;
       color: #00ff99;
       cursor: pointer;
-      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <h1>Integraciones con RNAI-NEOX</h1>
-  <p>Pega tus claves API o URLs de Webhook para activar funcionalidades automáticas.</p>
-
-  <div class="api-container" id="form-list">
-    <!-- Formularios generados dinámicamente -->
-  </div>
+  <h1>Integraciones RNAI-NEOX</h1>
+  <div class="api-container" id="form-list"></div>
 
   <script>
     const apis = [
       { nombre: "API de OpenAI", id: "openai", placeholder: "sk-xxxxx", endpoint: "https://api.openai.com/v1/chat/completions" },
       { nombre: "Webhook de Zapier", id: "zapier", placeholder: "https://hooks.zapier.com/hooks/xxx" },
-      { nombre: "API de Zoom (JWT)", id: "zoom", placeholder: "eyJhbGciOi..." }
+      { nombre: "API de Zoom (JWT)", id: "zoom", placeholder: "eyJhbGciOi..." },
+      { nombre: "API de ElevenLabs", id: "elevenlabs", placeholder: "eleven-xxxxx" },
+      { nombre: "Webhook de Telegram Bot", id: "telegram", placeholder: "https://api.telegram.org/botxxxxx/sendMessage" },
+      { nombre: "API de Twilio", id: "twilio", placeholder: "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" },
+      { nombre: "Webhook de WhatsApp Cloud API", id: "whatsapp", placeholder: "https://graph.facebook.com/v16.0/xxxx/messages" },
+      { nombre: "API de Gemini AI", id: "gemini", placeholder: "AIzaSyD..." },
+      { nombre: "API de Discord Bot", id: "discord", placeholder: "Bot MTAx..." },
+      { nombre: "API de HuggingFace", id: "huggingface", placeholder: "hf_abcdefg..." }
     ];
 
     const formList = document.getElementById("form-list");
@@ -137,39 +131,47 @@
 
     function ejecutarAPI(id, value, endpoint) {
       if (!value) return;
-
       const now = new Date();
       const timestamp = now.toLocaleString();
 
-      localStorage.setItem(`api-${id}`, value);
+      fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: id, key: value })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById(`msg-${id}`).innerText = `✅ ${data.message}`;
+        document.getElementById(`time-${id}`).innerText = `Última actualización: ${timestamp}`;
 
-      document.getElementById(`msg-${id}`).innerText = `✅ Clave guardada correctamente.`;
-      document.getElementById(`time-${id}`).innerText = `Última actualización: ${timestamp}`;
-
-      if (id === "openai" && endpoint) {
-        fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${value}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: "¿Estás activo?" }]
+        if (id === "openai" && endpoint) {
+          fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${value}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              model: "gpt-3.5-turbo",
+              messages: [{ role: "user", content: "¿Estás activo?" }]
+            })
           })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.choices) {
-            document.getElementById(`msg-${id}`).innerText += " Respuesta recibida ✅";
-          } else {
-            document.getElementById(`msg-${id}`).innerText += " Pero hubo un error en la respuesta. ❌";
-          }
-        })
-        .catch(err => {
-          document.getElementById(`msg-${id}`).innerText = `❌ Error de conexión: ${err.message}`;
-        });
-      }
+          .then(res => res.json())
+          .then(data => {
+            if (data.choices) {
+              document.getElementById(`msg-${id}`).innerText += " Respuesta recibida ✅";
+            } else {
+              document.getElementById(`msg-${id}`).innerText += " Pero hubo un error en la respuesta. ❌";
+            }
+          })
+          .catch(err => {
+            document.getElementById(`msg-${id}`).innerText = `❌ Error conexión OpenAI: ${err.message}`;
+          });
+        }
+      })
+      .catch(err => {
+        document.getElementById(`msg-${id}`).innerText = `❌ Error guardando en backend: ${err.message}`;
+      });
     }
   </script>
 </body>
