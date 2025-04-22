@@ -1,1 +1,1 @@
-web: python seed_rnai.py
+web: python app.py

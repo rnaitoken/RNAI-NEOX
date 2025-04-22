@@ -1,10 +1,2 @@
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
-@app.route("/", methods=["GET"])
-def home():
-    return "RNAI-NEOX is running!"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+# Script de ejemplo para ser ejecutado desde el backend
+print("🤖 RNAI-NEOX ha ejecutado el seed IA correctamente.")
