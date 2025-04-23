@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>RNAI-GENESIS DASHBOARD</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 30px;
+        }
+        h1 {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #222;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+        }
+        .ok-status {
+            color: #00ff00;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>RNAI NEOX Control Dashboard 🚀</h1>
+
+    <div class="section">
+        <label>🔑 API Key: <input type="text" id="apiKey"><span class="ok-status" id="apiStatus"></span></label><br>
+        <label>🌐 Webhook URL: <input type="text" id="webhook"><span class="ok-status" id="webhookStatus"></span></label><br>
+        <label>👤 Login: <input type="text" id="login"><span class="ok-status" id="loginStatus"></span></label><br>
+        <label>🔐 Password: <input type="password" id="password"><span class="ok-status" id="passwordStatus"></span></label>
+    </div>
+
+    <div class="section">
+        <button onclick="cloneProgram()">🤖 Clonar Programa</button>
+        <button onclick="launchBrowser()">🌐 Navegador Virtual</button>
+        <button onclick="executeCommands()">⚙️ Ejecutar</button>
+    </div>
+
+    <div class="section">
+        <input type="text" id="promptInput" placeholder="Escribe aquí tu orden estilo Replit...">
+        <button onclick="sendPrompt()">Enviar Prompt</button>
+    </div>
+
+    <div class="section">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar acción...">
+    </div>
+
+    <script>
+        function cloneProgram() { alert("🧬 Clonación iniciada"); }
+        function launchBrowser() { alert("🌐 Máquina virtual navegando..."); }
+        function executeCommands() { alert("🔧 Ejecutando órdenes de nube..."); }
+        function sendPrompt() {
+            const prompt = document.getElementById("promptInput").value;
+            alert("🔁 Prompt enviado: " + prompt);
+        }
+
+        const inputs = ["apiKey", "webhook", "login", "password"];
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener("change", () => {
+                document.getElementById(id + "Status").innerText = "✔ OK";
+            });
+        });
+    </script>
+</body>
+</html>
