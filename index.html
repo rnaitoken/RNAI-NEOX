@@ -2,93 +2,101 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RNAI Dashboard - Centro de Integraciones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RNAI-NEOX Control Dashboard</title>
   <style>
     body {
-      background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
-      color: #00ffcc;
       font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      padding: 50px 20px;
+      background: linear-gradient(135deg, #0f0f1f, #1a1a2f);
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
     }
     h1 {
-      font-size: 2.8rem;
-      margin-bottom: 10px;
-      color: #00ffe1;
-      text-shadow: 0 0 10px #00ffe1;
+      color: #99ffcc;
+      text-align: center;
     }
-    h2 {
-      font-weight: 300;
-      font-size: 1.3rem;
-      color: #aaffff;
-    }
-    img.logo {
-      width: 120px;
+    .section {
+      background: #1f1f3f;
+      border-radius: 15px;
+      padding: 20px;
       margin-bottom: 20px;
-      filter: drop-shadow(0 0 10px #00ffe1);
+      box-shadow: 0 0 15px #00ffcc44;
     }
-    #searchBox {
-      margin: 30px auto;
-      padding: 12px;
-      font-size: 1rem;
-      width: 300px;
+    input, button, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
       border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00ffe1;
+      margin-top: 10px;
+      font-size: 1em;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+    button {
+      background: #00cc88;
+      color: white;
+      cursor: pointer;
     }
-    li {
-      margin: 15px 0;
+    button:hover {
+      background: #009977;
     }
-    a {
-      text-decoration: none;
-      font-size: 1.1rem;
-      color: #00ffe1;
-      padding: 10px 25px;
-      border: 1px solid #00ffe1;
-      border-radius: 30px;
-      background-color: rgba(0, 255, 255, 0.1);
-      transition: 0.3s ease;
-    }
-    a:hover {
-      background-color: #00ffe1;
-      color: #000;
-      box-shadow: 0 0 20px #00ffe1;
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #00ffcc;
     }
   </style>
 </head>
 <body>
-  <img src="https://avatars.githubusercontent.com/u/208672666?v=4" alt="RNAI Logo" class="logo" />
-  <h1>RNAI-NEOX Dashboard</h1>
-  <h2>Selecciona una integración para configurar tu enjambre digital</h2>
+  <h1>🚀 RNAI-NEOX Genesis Dashboard</h1>
 
-  <input type="text" id="searchBox" placeholder="🔍 Buscar integración..." onkeyup="buscarIntegracion()" />
+  <div class="section">
+    <h2>🔐 API Keys & Access</h2>
+    <input type="text" id="apiKeyInput" placeholder="Enter your API Key..."/>
+    <button onclick="saveApiKey()">Save API Key</button>
+    <div id="apiStatus" class="status"></div>
+  </div>
 
-  <ul id="listaIntegraciones">
-    <li><a href="openai.html">🔑 OpenAI</a></li>
-    <li><a href="telegram.html">📨 Telegram Bot</a></li>
-    <li><a href="zoom.html">🎥 Zoom API</a></li>
-    <li><a href="zapier.html">🔗 Zapier Webhook</a></li>
-    <li><a href="elevenlabs.html">🧠 ElevenLabs</a></li>
-    <li><a href="googlecloud.html">🌐 Google Cloud</a></li>
-    <li><a href="discord.html">🎮 Discord Bot</a></li>
-    <li><a href="whatsapp.html">💬 WhatsApp API</a></li>
-    <li><a href="notion.html">🗂️ Notion API</a></li>
-    <li><a href="huggingface.html">🤗 Hugging Face</a></li>
-  </ul>
+  <div class="section">
+    <h2>🧠 Prompt Execution</h2>
+    <textarea id="promptInput" rows="4" placeholder="Write your command..."></textarea>
+    <button onclick="sendPrompt()">Execute Prompt</button>
+    <div id="promptStatus" class="status"></div>
+  </div>
+
+  <div class="section">
+    <h2>🛰️ Tools</h2>
+    <button onclick="alert('Virtual Navigation Module Activated')">🌐 Navigation Virtual</button>
+    <button onclick="alert('Cloning System Ready')">🧬 Clone Creator</button>
+    <button onclick="alert('Login Credentials Loaded')">🔓 Login & Access</button>
+    <button onclick="alert('Webhook & API Connector Ready')">🔗 Connect Webhooks</button>
+  </div>
+
+  <div class="section">
+    <h2>🔍 Buscador</h2>
+    <input type="text" placeholder="Search function or file...">
+  </div>
 
   <script>
-    function buscarIntegracion() {
-      const input = document.getElementById("searchBox").value.toLowerCase();
-      const items = document.querySelectorAll("#listaIntegraciones li");
-      items.forEach((item) => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(input) ? "" : "none";
-      });
+    function saveApiKey() {
+      const key = document.getElementById("apiKeyInput").value;
+      if (key) {
+        localStorage.setItem("RNAI_API_KEY", key);
+        document.getElementById("apiStatus").innerText = "✅ API Key saved successfully.";
+      } else {
+        document.getElementById("apiStatus").innerText = "❌ Please enter a valid API Key.";
+      }
+    }
+
+    function sendPrompt() {
+      const prompt = document.getElementById("promptInput").value;
+      if (prompt) {
+        document.getElementById("promptStatus").innerText = `⏳ Executing: "${prompt}"...`;
+        setTimeout(() => {
+          document.getElementById("promptStatus").innerText = `✅ Prompt executed: "${prompt}"`;
+        }, 1500);
+      } else {
+        document.getElementById("promptStatus").innerText = "❌ Enter a prompt first.";
+      }
     }
   </script>
 </body>
